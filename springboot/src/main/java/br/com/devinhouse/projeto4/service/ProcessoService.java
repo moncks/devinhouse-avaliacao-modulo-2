@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.devinhouse.projeto4.dto.ProcessoDTO;
 import br.com.devinhouse.projeto4.repository.ProcessoRepository;
+//import ch.qos.logback.core.net.SyslogOutputStream;
+//import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Service
 public class ProcessoService {
@@ -28,7 +30,6 @@ public class ProcessoService {
 
 		List<ProcessoDTO> todosProcessos = recuperarTodosProcessos();
 		List<ProcessoDTO> listProcessoFiltrados = new ArrayList<ProcessoDTO>();
-		System.out.println(listProcessoFiltrados);
 
 		for (ProcessoDTO processoDTO : todosProcessos) {
 
@@ -61,8 +62,13 @@ public class ProcessoService {
 
 		List<ProcessoDTO> todosProcessos = recuperarTodosProcessos();
 
-		todosProcessos.add(processo);
+		if (todosProcessos.size() != 0) {
+			int id = todosProcessos.size();
+			id += 1;
+			processo.setId(id);
 
+			todosProcessos.add(processo);
+		}
 		return todosProcessos;
 	}
 
@@ -109,37 +115,18 @@ public class ProcessoService {
 	}
 
 	public List<ProcessoDTO> deletaProcesso(Integer id) {
-		System.out.println(id);
+
 		List<ProcessoDTO> todosProcessos = recuperarTodosProcessos();
-			
-		for(int i = 0; i < todosProcessos.size(); i++) {
-			if(id == todosProcessos.get(i).getId()) {
+
+		for (int i = 0; i < todosProcessos.size(); i++) {
+			if (id == todosProcessos.get(i).getId()) {
 				todosProcessos.remove(i);
-				
-			}
-		}
-/*
-		for (ProcessoDTO processoDTO : todosProcessos) {
-			System.out.println(processoDTO.getId());
-			if (id == (processoDTO.getId())) {
-				System.out.println(processoDTO.getId());
-				System.out.println(todosProcessos);
-				todosProcessos.remove(processoDTO);
-				System.out.println(todosProcessos);
 
 			}
-
 		}
-		*/
-		
+
 		return todosProcessos;
 
 	}
 
 }
-/*
- * "id": 1, "chaveProcesso": "SOFT 1/2020", "sgOrgaoProcesso": "SOFT",
- * "nuProcesso": 1, "nuAnoProcesso": "2020", "cdAssunto": 1, "descricaoAssunto":
- * "Assunto 1 de testes DEV In House ", "descricao": "TESTE PUT ",
- * "cdInteressado": 1, "nmInteressado": "Jão Antonio ::: 0"
- */
